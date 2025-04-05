@@ -1,36 +1,53 @@
 package com.example.ecommerce.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/chatbot")
+@RequestMapping("/api/chat")
 public class ChatbotController {
 
-    @GetMapping("/response")
-    public ChatbotResponse getResponse(@RequestParam String query) {
-        String responseMessage = "You asked: " + query + ". How can I assist further?";
-        return new ChatbotResponse(responseMessage);
+    @PostMapping
+    public ResponseEntity<ChatResponse> chat(@RequestBody ChatMessage message) {
+        String userMessage = message.getContent().toLowerCase();
+
+        String reply;
+        if (userMessage.contains("return")) {
+            reply = "You can return items by going to your account > Orders > Return Item.";
+        } else if (userMessage.contains("shipping")) {
+            reply = "Shipping typically takes 3 to 5 business days.";
+        } else if (userMessage.contains("refund")) {
+            reply = "Refunds are processed within 5 to 7 business days.";
+        } else {
+            reply = "Sorry, I didn’t quite catch that. Could you try rephrasing?";
+        }
+
+        return ResponseEntity.ok(new ChatResponse(reply));
     }
 
-    // Response DTO for chatbot
-    public static class ChatbotResponse {
-        private String response;
+    // Message request model
+    static class ChatMessage {
+        private String content;
 
-        public ChatbotResponse() {}
-
-        public ChatbotResponse(String response) {
-            this.response = response;
+        public String getContent() {
+            return content;
         }
 
-        public String getResponse() {
-            return response;
+        public void setContent(String content) {
+            this.content = content;
+        }
+    }
+
+    // Message response model
+    static class ChatResponse {
+        private String reply;
+
+        public ChatResponse(String reply) {
+            this.reply = reply;
         }
 
-        public void setResponse(String response) {
-            this.response = response;
+        public String getReply() {
+            return reply;
         }
     }
 }
