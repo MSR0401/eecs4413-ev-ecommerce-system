@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .vehicle-image { max-width: 100%; height: auto; margin-bottom: 20px; }
+        .action-section { margin-top: 20px; padding: 15px; border: 1px solid #eee; border-radius: 5px; background-color: #f9f9f9; }
+        .action-message { display: none; margin-top: 10px; }
+        .action-buttons button { margin-right: 10px; }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div id="vehicleDetailsSection">
+        <h1 id="vehicleTitle">Loading Vehicle Details...</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <img id="vehicleImage" src="" alt="Vehicle Image" class="vehicle-image img-fluid rounded">
+            </div>
+            <div class="col-md-6">
+                <p><strong>Make:</strong> <span id="vehicleMake"></span></p>
+                <p><strong>Model:</strong> <span id="vehicleModel"></span></p>
+                <p><strong>Year:</strong> <span id="vehicleYear"></span></p>
+                <p><strong>Price:</strong> $<span id="vehiclePrice"></span></p>
+                <p><strong>Type:</strong> <span id="vehicleType"></span></p>
+                <p><strong>Battery Capacity:</strong> <span id="vehicleBattery"></span> kWh</p>
+                <p><strong>Range:</strong> <span id="vehicleRange"></span> km</p>
+                <p><strong>Available Stock:</strong> <span id="vehicleStock"></span></p>
+
+                <div id="actionsSection" class="action-section">
+                    <h5>Actions</h5>
+                    <div id="cartAction">
+                        <div class="form-group row align-items-center">
+                            <label for="quantity" class="col-sm-3 col-form-label">Quantity:</label>
+                            <div class="col-sm-4">
+                                <input type="number" id="quantity" class="form-control" value="1" min="1">
+                            </div>
+                            <div class="col-sm-5">
+                                <button id="addToCartButton" class="btn btn-success btn-block">Add to Cart</button>
+                            </div>
+                        </div>
+                        <div id="cartActionMessage" class="alert action-message"></div>
+                    </div>
+                    <hr>
+                    <div id="wishlistAction">
+                        <button id="addToWishlistButton" class="btn btn-outline-primary">Add to Wishlist</button>
+                        <div id="wishlistActionMessage" class="alert action-message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+    <div class="mt-5">
+        <h2>Reviews</h2>
+        <div id="reviewsList"><p>Loading reviews...</p></div>
+        <hr>
+        <h3>Leave a Review</h3>
+        <form id="reviewForm" class="bg-light p-4 rounded shadow">
+            <div id="reviewMessage" class="alert" style="display: none;"></div>
+            <div class="form-group" id="reviewerNameGroup" style="display: none;">
+                <label for="reviewerName">Your Name:</label>
+                <input type="text" id="reviewerName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating:</label>
+                <select id="rating" class="form-control" required>
+                    <option value="">Select Rating</option>
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Star</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="comment">Comment:</label>
+                <textarea id="comment" class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Submit Review</button>
+        </form>
+    </div>
+    <div class="mt-4">
+        <a href="vehicles.html" class="btn btn-secondary">&laquo; Back to Vehicle List</a>
+        <a href="index.html" class="btn btn-link">Back to Home</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="vehicle-detail.js" defer></script>
+</body>
+</html>
