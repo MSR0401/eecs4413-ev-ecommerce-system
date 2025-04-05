@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .message { display: none; margin-top: 15px; }
+        #paymentForm { margin-top: 20px; }
+        /* Added for summary item styling */
+        .summary-item { display: flex; justify-content: space-between; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Checkout</h1>
+
+    <div id="loadingMessage" class="alert alert-info">Loading order summary...</div>
+    <div id="errorMessage" class="alert alert-danger message"></div>
+    <div id="successMessage" class="alert alert-success message"></div>
+
+    <div id="checkoutContent" style="display: none;">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Order Summary</h2>
+                <div id="orderSummaryContainer" class="mb-3">
+                </div>
+                <hr>
+                <div class="text-right">
+                    <h4>Total: $<span id="checkoutTotal">0.00</span></h4>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h2>Payment Details</h2>
+                <p class="text-muted"><small>For demonstration only. Card details are not processed.</small></p>
+                <form id="paymentForm">
+                    <div class="form-group">
+                        <label for="cardName">Name on Card</label>
+                        <input type="text" class="form-control" id="cardName" placeholder="Cardholder Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number</label>
+                        <input type="text" class="form-control" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-7">
+                            <label for="expiryDate">Expiry Date</label>
+                            <input type="text" class="form-control" id="expiryDate" placeholder="MM / YY" inputmode="numeric" pattern="\d{2}\s?\/?\s?\d{2}" maxlength="7" required>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="cvv">CVV</label>
+                            <input type="text" class="form-control" id="cvv" placeholder="123" inputmode="numeric" pattern="[0-9]{3,4}" maxlength="4" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center mt-4">
+            <button id="placeOrderButton" class="btn btn-success btn-lg">Place Order</button>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="cart.html" class="btn btn-secondary">&laquo; Back to Cart</a>
+        <a href="index.html" class="btn btn-link">Back to Home</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="checkout.js" defer></script>
+</body>
+</html>
