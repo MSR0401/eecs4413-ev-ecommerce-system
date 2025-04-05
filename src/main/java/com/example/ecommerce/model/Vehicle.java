@@ -1,6 +1,7 @@
 package com.example.ecommerce.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "vehicles")
@@ -12,15 +13,20 @@ public class Vehicle {
   
   private String make;
   private String model;
-  @Column(name = "year")
-  private int modelYear;
+  
+  @Column(name = "model_year")
+  private int year;
+  
   private double price;
   private double batteryCapacity;
   private int rangeKm;
   private String type;          
   private int availableStock;
   private String imageUrl;
-  
+
+  @Column(name = "created_at")
+  private LocalDateTime createdAt; 
+
   // Getters and Setters
   
   public Long getId() {
@@ -42,10 +48,10 @@ public class Vehicle {
     this.model = model;
   }
   public int getYear() {
-    return modelYear;
+    return year;
   }
   public void setYear(int modelYear) {
-    this.modelYear = modelYear;
+    this.year = modelYear;
   }
   public double getPrice() {
     return price;
@@ -82,5 +88,13 @@ public class Vehicle {
   }
   public void setImageUrl(String imageUrl) {
     this.imageUrl = imageUrl;
+  }
+  
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
+  
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
   }
 }
