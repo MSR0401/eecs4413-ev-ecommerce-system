@@ -1,12 +1,10 @@
 package com.example.ecommerce.model;
 
-
-
-
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users") // using the SQL table name from your provided SQL code
+@Table(name = "users")
 public class User {
 
   @Id
@@ -20,7 +18,10 @@ public class User {
   
   private String passwordHash;
   
-  private String role; // e.g., "admin" or "customer"
+  private String role;
+
+  @Column(name = "created_at")
+  private LocalDateTime createdAt;
 
   // Getters and Setters
   
@@ -54,5 +55,12 @@ public class User {
   public void setRole(String role) {
     this.role = role;
   }
+  
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
+  
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
 }
-
