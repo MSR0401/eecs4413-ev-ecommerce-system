@@ -3,16 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>E-Commerce Home</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #cartLink span {
+            font-size: 0.8em;
+            background-color: #007bff;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 50%;
+            margin-left: 4px;
+            vertical-align: top;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Electric Vehicle E-Commerce Store</h1>
-    <nav>
-        <ul>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="register.html">Register</a></li>
-            <li><a href="vehicles.html">Browse Vehicles</a></li>
-            <li><a href="order.html">Place Order</a></li>
-        </ul>
+<div class="container">
+    <h1 class="text-center my-4">Welcome to the Electric Vehicle E-Commerce Store</h1>
+
+    <nav class="nav justify-content-center">
+        <a class="nav-link" href="index.html">Home</a>
+        <a id="loginLink" class="nav-link" href="login.html">Login</a>
+        <a id="registerLink" class="nav-link" href="register.html">Register</a>
+        <a class="nav-link" href="vehicles.html">Browse Vehicles</a>
+        <a id="wishlistLink" class="nav-link" href="wishlist.html" style="display: none;">Wishlist</a>
+        <a id="cartLink" class="nav-link" href="cart.html" style="display: none;">
+            Cart <span id="cartItemCount">0</span>
+        </a>
+        <a class="nav-link" href="loanCalculator.html">Loan Calculator</a>
+        <a id="logoutLink" class="nav-link" href="#" onclick="handleLogout(event)" style="display: none;">Logout</a>
     </nav>
+    <div id="userInfo" class="text-center mt-2" style="display: none;"></div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="index.js" defer></script>
 </body>
 </html>
