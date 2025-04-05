@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Wishlist</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .wishlist-item img {
+            max-width: 100px;
+            height: auto;
+            margin-right: 15px;
+        }
+        .wishlist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .item-details {
+            flex-grow: 1;
+        }
+        .item-actions {
+            text-align: right;
+        }
+        #errorMessage, #emptyWishlistMessage { display: none; } /* Hide initially */
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Your Wishlist</h1>
+
+    <div id="errorMessage" class="alert alert-danger" role="alert">
+        Could not load wishlist. You might need to <a href="login.html">log in</a>.
+    </div>
+    <div id="emptyWishlistMessage" class="alert alert-info" role="alert">
+        Your wishlist is currently empty. <a href="vehicles.html">Browse vehicles</a>.
+    </div>
+
+    <div id="wishlistItemsContainer">
+    </div>
+
+    <div class="mt-4">
+        <a href="vehicles.html" class="btn btn-secondary">&laquo; Continue Shopping</a>
+        <a href="index.html" class="btn btn-link">Back to Home</a>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    const wishlistItemsContainer = document.getElementById('wishlistItemsContainer');
+    const errorMessageDiv = document.getElementById('errorMessage');
+    const emptyWishlistMessageDiv = document.getElementById('emptyWishlistMessage');
+
+    async function fetchWishlist() {
+        try {
+            const response = await fetch('/api/wishlist');
+
+            if (response.status === 401) { // Unauthorized
+                errorMessageDiv.style.display = 'block';
+                emptyWishlistMessageDiv.style.display = 'none';
+                wishlistItemsContainer.innerHTML = ''; // Clear any previous items
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const wishlist = await response.json();
+            displayWishlist(wishlist);
+
+        } catch (error) {
+            console.error('Error fetching wishlist:', error);
+            errorMessageDiv.textContent = `Error loading wishlist: ${error.message}. Please try again.`;
+            errorMessageDiv.style.display = 'block';
+            emptyWishlistMessageDiv.style.display = 'none';
+            wishlistItemsContainer.innerHTML = '';
+        }
+    }
+
+    function displayWishlist(wishlist) {
+        wishlistItemsContainer.innerHTML = ''; // Clear previous content
+        errorMessageDiv.style.display = 'none'; // Hide errors if successful
+
+        if (!wishlist || !wishlist.items || wishlist.items.length === 0) {
+            emptyWishlistMessageDiv.style.display = 'block';
+            return;
+        }
+
+        emptyWishlistMessageDiv.style.display = 'none';
+
+        wishlist.items.forEach(item => {
+            const vehicle = item.vehicle; // VehicleSummaryDTO
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('wishlist-item');
+            itemElement.setAttribute('id', `wishlist-item-${item.id}`); // Add ID for easy removal
+
+            itemElement.innerHTML = `
+                <img src="${vehicle.imageUrl || 'placeholder.jpg'}" alt="${vehicle.make} ${vehicle.model}">
+                <div class="item-details">
+                    <h5><a href="vehicle-detail.html?id=${vehicle.id}">${vehicle.year} ${vehicle.make} ${vehicle.model}</a></h5>
+                    <p>Price: $${vehicle.price ? vehicle.price.toFixed(2) : 'N/A'}</p>
+                     <p><small>Added on: ${item.addedAt ? new Date(item.addedAt).toLocaleDateString() : 'N/A'}</small></p>
+                </div>
+                <div class="item-actions">
+                     <button class="btn btn-danger btn-sm" onclick="removeItem(${item.id})">Remove</button>
+                </div>
+            `;
+            wishlistItemsContainer.appendChild(itemElement);
+        });
+    }
+
+    async function removeItem(wishlistItemId) {
+        if (!confirm('Are you sure you want to remove this item from your wishlist?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/wishlist/items/${wishlistItemId}`, {
+                method: 'DELETE',
+                headers: {
+                    // Add CSRF token header if enabled/needed
+                }
+            });
+
+            if (response.ok) {
+                // Remove the item element directly from the DOM for immediate feedback
+                const itemElement = document.getElementById(`wishlist-item-${wishlistItemId}`);
+                if (itemElement) {
+                    itemElement.remove();
+                }
+                // Check if wishlist is now empty
+                if (wishlistItemsContainer.children.length === 0) {
+                    emptyWishlistMessageDiv.style.display = 'block';
+                }
+                // Or uncomment fetchWishlist() to refresh from backend entirely:
+                // fetchWishlist();
+            } else if (response.status === 401) {
+                alert("Please log in to modify your wishlist.");
+                window.location.href = 'login.html';
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `Failed to remove item. Status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Error removing item:', error);
+            alert(`Error removing item: ${error.message}`);
+        }
+    }
+
+    // Fetch wishlist on page load
+    document.addEventListener('DOMContentLoaded', fetchWishlist);
+</script>
+
+</body>
+</html>

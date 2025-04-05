@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Shopping Cart</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .cart-item img { max-width: 100px; height: auto; margin-right: 15px; }
+        .cart-item { display: flex; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        .item-details { flex-grow: 1; }
+        .item-actions { text-align: right; }
+        #cartTotal { font-weight: bold; font-size: 1.2em; }
+        #errorMessage, #emptyCartMessage { display: none; }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Your Shopping Cart</h1>
+
+    <div id="errorMessage" class="alert alert-danger" role="alert">
+        Could not load cart. You might need to <a href="login.html">log in</a>.
+    </div>
+    <div id="emptyCartMessage" class="alert alert-info" role="alert">
+        Your cart is currently empty. <a href="vehicles.html">Browse vehicles</a>.
+    </div>
+
+    <div id="cartItemsContainer">
+    </div>
+
+    <div id="cartSummary" style="display: none;">
+        <hr>
+        <div class="text-right">
+            <h4>Total: $<span id="cartTotal">0.00</span></h4>
+            <button id="checkoutButton" class="btn btn-success btn-lg mt-3">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="vehicles.html" class="btn btn-secondary">&laquo; Continue Shopping</a>
+        <a href="index.html" class="btn btn-link">Back to Home</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="cart.js" defer></script>
+</body>
+</html>
